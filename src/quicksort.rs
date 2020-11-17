@@ -39,17 +39,19 @@ fn quicksort<T: Ord + std::fmt::Debug + Clone>(slice: &mut [T]) {
     }
 
     // re-align left to account for the pivot at 0
-    let left_global = left + 1;
-    let left_minus_one = left_global - 1;
+    let pivot_location = {
+        let left_global = left + 1;
+        left_global - 1
+    };
 
     // place the pivot at its final location (if not already there)
-    if left_minus_one > 0 {
-        slice.swap(0, left_minus_one);
+    if pivot_location > 0 {
+        slice.swap(0, pivot_location);
     } else {
     }
 
     // split_at_mut(mid: usize) -> (&mut [..mid), &mut [mid..])
-    let (left, right) = slice.split_at_mut(left_minus_one);
+    let (left, right) = slice.split_at_mut(pivot_location);
     if !left.is_empty() && !right.is_empty() {
         assert!(
             left.last() <= right.first(),
